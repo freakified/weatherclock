@@ -9,7 +9,7 @@ interface WeatherState {
     // time: Date
 }
  
-export class Weather extends Component<WeatherProps, WeatherState> {
+class Weather extends Component<WeatherProps, WeatherState> {
     // private timerID: number; 
 
     constructor(props: WeatherProps) {
@@ -26,3 +26,5 @@ export class Weather extends Component<WeatherProps, WeatherState> {
         );
     }
 }
+
+export default Weather;

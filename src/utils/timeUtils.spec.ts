@@ -85,3 +85,21 @@ test('Date format works', () => {
         TimeUtils.getFormattedDate(new Date("2020-01-03T00:00:00"))
     ).toBe('Jan 3');
 });
+
+test('Duration calculation works', () => {
+    expect(
+        TimeUtils.getMinutesBetweenDates(new Date("2020-01-01T00:00:00"), new Date("2020-01-01T00:30:00"))
+    ).toBe(30);
+
+    expect(
+        TimeUtils.getMinutesBetweenDates(new Date("2020-01-01T00:00:00"), new Date("2020-01-01T00:05:00"))
+    ).toBe(5);
+
+    expect(
+        TimeUtils.getMinutesBetweenDates(new Date("2020-01-01T00:00:00"), new Date("2020-01-01T00:00:00"))
+    ).toBe(0);
+
+    expect(
+        TimeUtils.getMinutesBetweenDates(new Date("2020-01-01T00:59:00"), new Date("2020-01-01T00:00:00"))
+    ).toBe(-59);
+});

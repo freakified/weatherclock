@@ -1,5 +1,3 @@
-import { createModuleResolutionCache } from "typescript";
-
 export const getFormattedHour = (currentTime: Date, use12HourMode: boolean = false) => {
     return (use12HourMode ? (
         currentTime.getHours() % 12 || 12
@@ -27,4 +25,9 @@ export const getFormattedDate = (currentTime: Date) => {
     const monthNames = ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     return `${monthNames[currentTime.getMonth()]} ${currentTime.getDate()}`;
+}
+
+export const getMinutesBetweenDates = (startDate: Date, endDate: Date) => {
+    const durationMs = (endDate.getTime()) - (startDate.getTime());
+    return Math.floor(durationMs / 60000);
 }

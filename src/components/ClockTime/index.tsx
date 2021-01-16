@@ -1,7 +1,6 @@
 
 import React, { FunctionComponent } from 'react';
 import { getFormattedHour, getFormattedMinute } from '../../utils/timeUtils';
-import Clock from '../Clock';
 import './ClockTime.css';
 
 interface ClockTimeProps {
