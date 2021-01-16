@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ClockTime from '../ClockTime';
 
 
 interface ClockProps {
@@ -33,9 +34,7 @@ class Clock extends Component<ClockProps, ClockState> {
     
     render() {
         return(
-            <p>
-                The current time is {this.state.time?.toLocaleTimeString()}
-            </p>
+            <ClockTime currentTime={this.state.time} />
         );
     }
 }
