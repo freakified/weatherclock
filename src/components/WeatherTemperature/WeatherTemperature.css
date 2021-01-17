@@ -1,0 +1,7 @@
+.wc-WeatherTemperature {
+    font-size: 48px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    display: flex;
+    margin-left: 15px;
+}
