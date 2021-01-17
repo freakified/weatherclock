@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ClockTime from '../ClockTime';
+import BackgroundImage from '../BackgroundImage';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
+import { getWeatherWithDelay } from '../../mocks/mockUtils';
 import { getMinutesBetweenDates } from '../../utils/timeUtils';
 import './App.css';
 
@@ -9,7 +11,7 @@ interface AppProps {
 }
 
 interface AppState {
-    currentWeather?: JSON
+    currentWeather?: any
     currentTime: Date
     lastWeatherUpdateTime: Date
 }
@@ -31,8 +33,11 @@ class App extends Component<AppProps, AppState> {
     render() {
         return (
             <div className="wc-App">
+                <BackgroundImage
+                    currentWeather={this.state.currentWeather}
+                    currentTime={this.state.currentTime} />
                 {/* <Weather /> */}
-                { JSON.stringify(this.state.currentWeather) }
+                
                 <ClockTime
                     currentTime={this.state.currentTime}
                     use12HourTime={settings.use12HourMode}
@@ -57,13 +62,20 @@ class App extends Component<AppProps, AppState> {
     }
 
     fetchNewWeather() {
-        fetch('https://api.weather.gov/gridpoints/TOP/31,80/forecast')
-            .then(response => response.json())
-            .then(data => this.setState((prevState) => ({
+        // fetch('https://api.weather.gov/gridpoints/TOP/31,80/forecast')
+        //     .then(response => response.json())
+        //     .then(data => this.setState((prevState) => ({
+        //         ...prevState,
+        //         currentWeather: data,
+        //         lastWeatherUpdateTime: prevState.currentTime
+        //     })));
+        getWeatherWithDelay(2000).then(
+            data => this.setState((prevState) => ({
                 ...prevState,
                 currentWeather: data,
                 lastWeatherUpdateTime: prevState.currentTime
-            })));
+            }))
+        );
     }
 
     componentWillUnmount() {
