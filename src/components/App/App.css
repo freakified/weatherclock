@@ -1,5 +1,21 @@
 .wc-App {
-  background-color: black;
+  /* background-color: black; */
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  width: 100vw;
+  overflow: hidden;
+}
+
+.wc-App-upperContainer {
+  flex-grow: 1;
+}
+
+.wc-App-lowerContainer {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.wc-App-spacer {
+  flex-grow: 1;
 }

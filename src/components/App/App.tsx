@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ClockTime from '../ClockTime';
-import BackgroundImage from '../BackgroundImage';
+import ClockTime from '../ClockTime/ClockTime';
+import ClockDate from '../ClockDate/ClockDate';
+import BackgroundImage from '../BackgroundImage/BackgroundImage';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
 import { getWeatherWithDelay } from '../../mocks/mockUtils';
 import { getMinutesBetweenDates } from '../../utils/timeUtils';
@@ -33,16 +34,25 @@ class App extends Component<AppProps, AppState> {
     render() {
         return (
             <div className="wc-App">
+                <div className="wc-App-upperContainer">
+                    {/* <Weather /> */}
+                    { this.state.currentTime.toString() }
+                </div>
+                
+                <div className="wc-App-lowerContainer">
+                    <ClockDate
+                        currentTime={this.state.currentTime}
+                    />
+                    <div className="wc-App-spacer"></div>
+                    <ClockTime
+                        currentTime={this.state.currentTime}
+                        use12HourTime={settings.use12HourMode}
+                    />
+                </div>
+
                 <BackgroundImage
                     currentWeather={this.state.currentWeather}
                     currentTime={this.state.currentTime} />
-                {/* <Weather /> */}
-                
-                <ClockTime
-                    currentTime={this.state.currentTime}
-                    use12HourTime={settings.use12HourMode}
-                />
-                { this.state.lastWeatherUpdateTime.toString() }
             </div>
         );
     }
