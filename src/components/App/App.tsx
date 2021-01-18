@@ -5,7 +5,7 @@ import BackgroundImage from '../BackgroundImage/BackgroundImage';
 import WeatherTemperature from '../WeatherTemperature/WeatherTemperature';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
 import * as mockUtils from '../../mocks/mockUtils';
-import { WeatherMeta, WeatherData, getLocation } from '../../utils/weatherUtils'
+import { WeatherMeta, WeatherData, getWeatherMeta } from '../../utils/weatherUtils'
 import { getMinutesBetweenDates } from '../../utils/timeUtils';
 import './App.css';
 import WeatherForecast from '../WeatherForecast/WeatherForecast';
@@ -72,9 +72,11 @@ class App extends Component<AppProps, AppState> {
         }));
     }
 
-    componentDidMount() {
-        this.fetchWeatherMeta();
-        this.fetchNewWeather();
+    async componentDidMount() {
+        const weatherMeta = await getWeatherMeta();
+        console.log("Weather meta found!");
+        console.log(weatherMeta);
+        // this.fetchNewWeather();
     }
 
     componentDidUpdate() {
@@ -92,33 +94,33 @@ class App extends Component<AppProps, AppState> {
     }
 
     // Fetches the NWS weather metadata needed to fetch weather information
-    fetchWeatherMeta() {
-        getLocation().then((position) => {
-            // We got the location!
-            mockUtils.getPointWithDelay().then((pointData) => {
-                // We got the point data!
-                mockUtils.getStationsWithDelay().then(
-                    (stationsData) => {
-                        this.setState((prevState) => ({
-                            ...prevState,
-                            weatherMeta: {
-                                ...prevState.weatherMeta,
-                                lat: position.coords.latitude,
-                                lng: position.coords.longitude,
-                                forecastURI: pointData.properties.forecast,
-                                stationsURI: pointData.properties.observationStations,
-                                observationURI: `https://api.weather.gov/stations/${stationsData.features[0].properties.stationIdentifier}/observations`,
-                                stationId: stationsData.features[0].properties.stationIdentifier,
-                                stationName: stationsData.features[0].properties.name
-                            }
-                        }));
-                    }
-                );
-            })
-        }).catch((err) => {
-            console.log('Location get failed!');
-        });
-    }
+    // fetchWeatherMeta() {
+    //     getLocation().then((position) => {
+    //         // We got the location!
+    //         mockUtils.getPointWithDelay().then((pointData) => {
+    //             // We got the point data!
+    //             mockUtils.getStationsWithDelay().then(
+    //                 (stationsData) => {
+    //                     this.setState((prevState) => ({
+    //                         ...prevState,
+    //                         weatherMeta: {
+    //                             ...prevState.weatherMeta,
+    //                             lat: position.coords.latitude,
+    //                             lng: position.coords.longitude,
+    //                             forecastURI: pointData.properties.forecast,
+    //                             stationsURI: pointData.properties.observationStations,
+    //                             observationURI: `https://api.weather.gov/stations/${stationsData.features[0].properties.stationIdentifier}/observations`,
+    //                             stationId: stationsData.features[0].properties.stationIdentifier,
+    //                             stationName: stationsData.features[0].properties.name
+    //                         }
+    //                     }));
+    //                 }
+    //             );
+    //         })
+    //     }).catch((err) => {
+    //         console.log('Location get failed!');
+    //     });
+    // }
 
     // (forecastData) => {
     //     this.setState((prevState) => ({
