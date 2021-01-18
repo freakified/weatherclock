@@ -1,31 +1,38 @@
+import { getMinutesBetweenDates } from './timeUtils';
+
 export interface WeatherMeta {
+    lastUpdated: Date
+
     // Determined via browser
-    lat?: number
-    lng?: number
+    lat: number
+    lng: number
 
     // Information from Point API
-    forecastURI?: string
-    stationsURI?: string
+    forecastURI: string
+    stationsURI: string
 
     // Information from Stations API
-    stationId?: string
-    stationName?: string
-    observationURI?: string
+    stationId: string
+    stationName: string
+    observationURI: string
 }
 
 export interface WeatherData {
-    forecast?: {
+    lastUpdated: Date
+    forecast: {
         name: string
         shortForecast: string
         detailedForecast: string
     };
-    current?: {
+    current: {
         description: string
         temperature: number
     }
 }
 
-// export const getWeatherMeta : WeatherMeta ()
+const cToF = (tempInC: number) => {
+    return Math.round(tempInC * 1.8 + 32);
+}
 
 const getLocation = async () => {
     try {
@@ -54,6 +61,7 @@ const fetchNewWeatherMeta = async (lat: number, lng: number) => {
 
     // Return filled-out WeatherMeta
     return({
+        lastUpdated: new Date(),
         lat,
         lng,
         forecastURI: pointData.properties.forecast,
@@ -64,11 +72,42 @@ const fetchNewWeatherMeta = async (lat: number, lng: number) => {
     });
 }
 
+const fetchNewWeatherData = async (weatherMeta: WeatherMeta) => {
+    const forecastResponse = await fetch(weatherMeta.forecastURI);
+    const forecastData = await forecastResponse.json();
+
+    const observationResponse = await fetch(weatherMeta.observationURI);
+    const observationData = await observationResponse.json();
+
+    return({
+        lastUpdated: new Date(),
+        forecast: {
+            name: forecastData.properties.periods[0].name,
+            shortForecast: forecastData.properties.periods[0].shortForecast,
+            detailedForecast: forecastData.properties.periods[0].detailedForecast
+        },
+        current: {
+            description: observationData.features[0].properties.textDescription,
+            temperature: cToF(observationData.features[0].properties.temperature.value)
+        }
+    });
+}
+
 const getCachedWeatherMeta = () => {
     const rawCachedData = localStorage.getItem('weatherMeta');
 
     if(rawCachedData !== null) {
         return JSON.parse(rawCachedData) as WeatherMeta;
+    } else {
+        return null;
+    }
+}
+
+const getCachedWeatherData = () => {
+    const rawCachedData = localStorage.getItem('weatherData');
+
+    if(rawCachedData !== null) {
+        return JSON.parse(rawCachedData) as WeatherData;
     } else {
         return null;
     }
@@ -110,26 +149,24 @@ export const getWeatherMeta = async () => {
         }
     }
 }
-    
 
-    // mockUtils.getPointWithDelay().then((pointData) => {
-    //     // We got the point data!
-    //     mockUtils.getStationsWithDelay().then(
-    //         (stationsData) => {
-    //             this.setState((prevState) => ({
-    //                 ...prevState,
-    //                 weatherMeta: {
-    //                     ...prevState.weatherMeta,
-    //                     lat: position.coords.latitude,
-    //                     lng: position.coords.longitude,
-    //                     forecastURI: pointData.properties.forecast,
-    //                     stationsURI: pointData.properties.observationStations,
-    //                     observationURI: `https://api.weather.gov/stations/${stationsData.features[0].properties.stationIdentifier}/observations`,
-    //                     stationId: stationsData.features[0].properties.stationIdentifier,
-    //                     stationName: stationsData.features[0].properties.name
-    //                 }
-    //             }));
-    //         }
-    //     );
-    // })
-// }
+export const getWeatherData = async (weatherMeta: WeatherMeta, maxWeatherAge: number = 30 ) => {
+    // get cached data (if any)
+    const cachedWeatherData = getCachedWeatherData();
+
+    if(cachedWeatherData !== null &&
+        getMinutesBetweenDates(new Date(cachedWeatherData.lastUpdated), new Date()) < maxWeatherAge
+    ) {
+        console.log("Using cached weather data!");
+        return cachedWeatherData;
+    } else {
+        console.log("Fetching new weather data!");
+        // fetch new weather data
+        const newWeatherData = await fetchNewWeatherData(weatherMeta);
+        
+        // cache new data
+        localStorage.setItem('weatherData', JSON.stringify(newWeatherData));
+
+        return newWeatherData;
+    }
+}

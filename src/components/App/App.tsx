@@ -5,8 +5,7 @@ import BackgroundImage from '../BackgroundImage/BackgroundImage';
 import WeatherTemperature from '../WeatherTemperature/WeatherTemperature';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
 import * as mockUtils from '../../mocks/mockUtils';
-import { WeatherMeta, WeatherData, getWeatherMeta } from '../../utils/weatherUtils'
-import { getMinutesBetweenDates } from '../../utils/timeUtils';
+import { WeatherMeta, WeatherData, getWeatherMeta, getWeatherData } from '../../utils/weatherUtils'
 import './App.css';
 import WeatherForecast from '../WeatherForecast/WeatherForecast';
 
@@ -17,10 +16,8 @@ interface AppProps {
 interface AppState {
     weatherMeta?: WeatherMeta
     weatherData?: WeatherData
-    currentObservations?: any
 
     currentTime: Date
-    lastWeatherUpdateTime: Date
 }
 
 class App extends Component<AppProps, AppState> {
@@ -31,8 +28,7 @@ class App extends Component<AppProps, AppState> {
 
         this.timerID = window.setInterval(() => this.updateTime(), 1000);
         this.state = {
-            lastWeatherUpdateTime: new Date(0),
-            currentTime: new Date(),
+            currentTime: new Date()
         };
     }
     
@@ -73,10 +69,22 @@ class App extends Component<AppProps, AppState> {
     }
 
     async componentDidMount() {
+        // Get Weather metadata
         const weatherMeta = await getWeatherMeta();
-        console.log("Weather meta found!");
-        console.log(weatherMeta);
-        // this.fetchNewWeather();
+        
+        if(weatherMeta !== null) {
+            this.setState((prevState) => ({
+                ...prevState,
+                weatherMeta
+            }));
+
+            const weatherData = await getWeatherData(weatherMeta);
+
+            this.setState((prevState) => ({
+                ...prevState,
+                weatherData
+            }));
+        }
     }
 
     componentDidUpdate() {
@@ -91,65 +99,6 @@ class App extends Component<AppProps, AppState> {
         // if(getMinutesBetweenDates(this.state.lastWeatherUpdateTime, this.state.currentTime) > settings.weatherUpdateInterval) {
         //     this.fetchNewWeather();
         // }
-    }
-
-    // Fetches the NWS weather metadata needed to fetch weather information
-    // fetchWeatherMeta() {
-    //     getLocation().then((position) => {
-    //         // We got the location!
-    //         mockUtils.getPointWithDelay().then((pointData) => {
-    //             // We got the point data!
-    //             mockUtils.getStationsWithDelay().then(
-    //                 (stationsData) => {
-    //                     this.setState((prevState) => ({
-    //                         ...prevState,
-    //                         weatherMeta: {
-    //                             ...prevState.weatherMeta,
-    //                             lat: position.coords.latitude,
-    //                             lng: position.coords.longitude,
-    //                             forecastURI: pointData.properties.forecast,
-    //                             stationsURI: pointData.properties.observationStations,
-    //                             observationURI: `https://api.weather.gov/stations/${stationsData.features[0].properties.stationIdentifier}/observations`,
-    //                             stationId: stationsData.features[0].properties.stationIdentifier,
-    //                             stationName: stationsData.features[0].properties.name
-    //                         }
-    //                     }));
-    //                 }
-    //             );
-    //         })
-    //     }).catch((err) => {
-    //         console.log('Location get failed!');
-    //     });
-    // }
-
-    // (forecastData) => {
-    //     this.setState((prevState) => ({
-    //     ...prevState,
-    //     currentWeather,
-    //     lastWeatherUpdateTime: prevState.currentTime
-    // }))
-    // });
-
-    fetchNewWeather() {
-        mockUtils.getForecastWithDelay().then((forecastData) => {
-            mockUtils.getObservationsWithDelay().then((observationData) => {
-                this.setState((prevState) => ({
-                    ...prevState,
-                    lastWeatherUpdateTime: prevState.currentTime,
-                    weatherData: {
-                        forecast: {
-                            name: forecastData.properties.periods[0].name,
-                            shortForecast: forecastData.properties.periods[0].shortForecast,
-                            detailedForecast: forecastData.properties.periods[0].detailedForecast
-                        },
-                        current: {
-                            description: observationData.properties.textDescription,
-                            temperature: observationData.properties.temperature.value
-                        }
-                    }
-                }))
-            });
-        });
     }
 
     componentWillUnmount() {

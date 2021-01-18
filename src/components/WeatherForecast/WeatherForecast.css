@@ -1,11 +1,7 @@
 .wc-WeatherForecast {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     padding-left: 25px;
     padding-right: 10px;
-    flex-shrink: 1;
-    min-width: 0;
+    padding-top: 14px;
 }
 
 .wc-WeatherForecast-name {
