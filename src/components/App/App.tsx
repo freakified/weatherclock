@@ -8,6 +8,7 @@ import * as mockUtils from '../../mocks/mockUtils';
 import { WeatherMeta, WeatherData, getLocation } from '../../utils/weatherUtils'
 import { getMinutesBetweenDates } from '../../utils/timeUtils';
 import './App.css';
+import WeatherForecast from '../WeatherForecast/WeatherForecast';
 
 interface AppProps {
     // No props yet!
@@ -40,9 +41,11 @@ class App extends Component<AppProps, AppState> {
             <div className="wc-App">
                 
                 <div className="wc-App-upperContainer">
-                    {/* <WeatherTemperature currentWeather={this.state.weatherData} /> */}
-                    { JSON.stringify(this.state.weatherMeta) }
+                    <WeatherTemperature currentWeather={this.state.weatherData} />
+                    <WeatherForecast currentWeather={this.state.weatherData} />
                 </div>
+
+                <div className="wc-App-flexSpacer"></div>
                 
                 <div className="wc-App-lowerContainer">
                     <ClockDate
@@ -71,7 +74,7 @@ class App extends Component<AppProps, AppState> {
 
     componentDidMount() {
         this.fetchWeatherMeta();
-        // this.fetchNewWeather();
+        this.fetchNewWeather();
     }
 
     componentDidUpdate() {
@@ -98,7 +101,6 @@ class App extends Component<AppProps, AppState> {
                     (stationsData) => {
                         this.setState((prevState) => ({
                             ...prevState,
-                            lastWeatherUpdateTime: prevState.currentTime,
                             weatherMeta: {
                                 ...prevState.weatherMeta,
                                 lat: position.coords.latitude,
@@ -107,7 +109,7 @@ class App extends Component<AppProps, AppState> {
                                 stationsURI: pointData.properties.observationStations,
                                 observationURI: `https://api.weather.gov/stations/${stationsData.features[0].properties.stationIdentifier}/observations`,
                                 stationId: stationsData.features[0].properties.stationIdentifier,
-                                stationName: stationsData.features[0].properties.stationName,
+                                stationName: stationsData.features[0].properties.name
                             }
                         }));
                     }
@@ -118,28 +120,35 @@ class App extends Component<AppProps, AppState> {
         });
     }
 
-    // fetchNewWeather() {
-    //     // fetch('https://api.weather.gov/gridpoints/TOP/31,80/forecast')
-    //     //     .then(response => response.json())
-    //     //     .then(data => this.setState((prevState) => ({
-    //     //         ...prevState,
-    //     //         currentWeather: data,
-    //     //         lastWeatherUpdateTime: prevState.currentTime
-    //     //     })));
+    // (forecastData) => {
+    //     this.setState((prevState) => ({
+    //     ...prevState,
+    //     currentWeather,
+    //     lastWeatherUpdateTime: prevState.currentTime
+    // }))
+    // });
 
-    //     // TODO: Make 
-
-        
-        
-
-    //     getWeatherWithDelay(2000).then(
-    //         data => this.setState((prevState) => ({
-    //             ...prevState,
-    //             currentWeather: data,
-    //             lastWeatherUpdateTime: prevState.currentTime
-    //         }))
-    //     );
-    // }
+    fetchNewWeather() {
+        mockUtils.getForecastWithDelay().then((forecastData) => {
+            mockUtils.getObservationsWithDelay().then((observationData) => {
+                this.setState((prevState) => ({
+                    ...prevState,
+                    lastWeatherUpdateTime: prevState.currentTime,
+                    weatherData: {
+                        forecast: {
+                            name: forecastData.properties.periods[0].name,
+                            shortForecast: forecastData.properties.periods[0].shortForecast,
+                            detailedForecast: forecastData.properties.periods[0].detailedForecast
+                        },
+                        current: {
+                            description: observationData.properties.textDescription,
+                            temperature: observationData.properties.temperature.value
+                        }
+                    }
+                }))
+            });
+        });
+    }
 
     componentWillUnmount() {
         clearInterval(this.timerID);

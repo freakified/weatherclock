@@ -14,7 +14,6 @@ export interface WeatherMeta {
 }
 
 export interface WeatherData {
-    name: string;
     forecast?: {
         name: string
         shortForecast: string
@@ -25,6 +24,8 @@ export interface WeatherData {
         temperature: number
     }
 }
+
+// export const getWeatherMeta : WeatherMeta ()
 
 export const getLocation = () => {
     return new Promise((resolve: PositionCallback, reject: PositionErrorCallback) =>

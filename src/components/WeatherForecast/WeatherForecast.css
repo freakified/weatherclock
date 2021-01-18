@@ -1,0 +1,23 @@
+.wc-WeatherForecast {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 25px;
+    padding-right: 10px;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.wc-WeatherForecast-name {
+    font-size: 24px;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    line-height: 42px;
+    white-space: nowrap;
+}
+
+.wc-WeatherForecast-details {
+    font-size: 28px;
+    line-height: 33px;
+}

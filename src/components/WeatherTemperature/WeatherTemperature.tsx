@@ -1,9 +1,10 @@
 
 import React, { FunctionComponent } from 'react';
+import { WeatherData } from 'src/utils/weatherUtils';
 import './WeatherTemperature.css';
 
 interface WeatherTemperatureProps {
-    currentWeather: any // TODO type weather i guess
+    currentWeather?: WeatherData
 }
 
 const WeatherTemperature: FunctionComponent<WeatherTemperatureProps> = ({currentWeather}) => {
@@ -11,8 +12,7 @@ const WeatherTemperature: FunctionComponent<WeatherTemperatureProps> = ({current
     
     return(
         <div className="wc-WeatherTemperature">
-            <div className="wc-WeatherTemperature-currentTemp">{ JSON.stringify(currentWeather) }°</div>
-            {/* <div className="wc-WeatherTemperature-degreeSymbol"></div> */}
+            <div className="wc-WeatherTemperature-currentTemp">{ currentWeather?.current?.temperature }°</div>
         </div>
     );
 }

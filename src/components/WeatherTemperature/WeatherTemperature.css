@@ -1,7 +1,6 @@
 .wc-WeatherTemperature {
-    font-size: 48px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    display: flex;
-    margin-left: 15px;
+    font-size: 128px;
+    border-right: 2px solid rgba(255,255,255,0.3);
+    padding: 15px 10px 0 10px;
+    line-height: 94px;
 }
