@@ -150,7 +150,7 @@ export const getWeatherMeta = async () => {
     }
 }
 
-export const getWeatherData = async (weatherMeta: WeatherMeta, maxWeatherAge: number = 30 ) => {
+export const getWeatherData = async (weatherMeta: WeatherMeta, maxWeatherAge: number = 25 ) => {
     // get cached data (if any)
     const cachedWeatherData = getCachedWeatherData();
 

@@ -18,17 +18,18 @@ interface AppState {
     weatherData?: WeatherData
 
     currentTime: Date
+    secondsSinceLastUpdate: number
 }
 
 class App extends Component<AppProps, AppState> {
-    private timerID: number; 
+    private timerID?: number; 
 
     constructor(props: AppProps) {
         super(props);
 
-        this.timerID = window.setInterval(() => this.updateTime(), 1000);
         this.state = {
-            currentTime: new Date()
+            currentTime: new Date(),
+            secondsSinceLastUpdate: 0
         };
     }
     
@@ -36,10 +37,11 @@ class App extends Component<AppProps, AppState> {
         return (
             <div className="wc-App">
                 
+                { this.state.weatherData && 
                 <div className="wc-App-upperContainer">
                     <WeatherTemperature currentWeather={this.state.weatherData} />
                     <WeatherForecast currentWeather={this.state.weatherData} />
-                </div>
+                </div>}
 
                 <div className="wc-App-flexSpacer"></div>
                 
@@ -64,41 +66,46 @@ class App extends Component<AppProps, AppState> {
     updateTime() {
         this.setState((prevState) => ({
             ...prevState,
-            currentTime: new Date()
+            currentTime: new Date(),
+            secondsSinceLastUpdate: prevState.secondsSinceLastUpdate + 1
         }));
     }
 
     async componentDidMount() {
-        // Get Weather metadata
-        const weatherMeta = await getWeatherMeta();
-        
-        if(weatherMeta !== null) {
+        if(this.state.weatherMeta === undefined) {
+            // Get Weather metadata
+            const weatherMeta = await getWeatherMeta();
+            
+            if(weatherMeta !== null) {
+                this.setState((prevState) => ({
+                    ...prevState,
+                    weatherMeta
+                }));
+
+                await this.updateWeather();
+            }
+        }
+
+        this.timerID = window.setInterval(() => this.updateTime(), 1000);
+    }
+
+    async updateWeather() {
+        if(this.state.weatherMeta !== undefined) {
+            // Get weather info
+            const weatherData = await getWeatherData(this.state.weatherMeta);
+
             this.setState((prevState) => ({
                 ...prevState,
-                weatherMeta
-            }));
-
-            const weatherData = await getWeatherData(weatherMeta);
-
-            this.setState((prevState) => ({
-                ...prevState,
-                weatherData
+                weatherData,
+                secondsSinceLastUpdate: 0
             }));
         }
     }
 
-    componentDidUpdate() {
-        // Check if anything needs to be updated
-        if(this.state.weatherMeta !== undefined ) {
-            // Weather meta is totally undefined
-
-            // Get the geolocation, then all the  
-            // this.fetchWeatherMeta();
-        } 
-
-        // if(getMinutesBetweenDates(this.state.lastWeatherUpdateTime, this.state.currentTime) > settings.weatherUpdateInterval) {
-        //     this.fetchNewWeather();
-        // }
+    async componentDidUpdate() {
+        if(this.state.secondsSinceLastUpdate / 60 === settings.weatherUpdateInterval) {
+            await this.updateWeather();
+        }
     }
 
     componentWillUnmount() {
