@@ -8,6 +8,8 @@ interface BackgroundImageProps {
     currentWeather?: any // I might write a proper weather interface later
 }
 
+
+
 const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime}) => {
     return(
         <div

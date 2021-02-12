@@ -4,7 +4,7 @@ import ClockDate from '../ClockDate/ClockDate';
 import BackgroundImage from '../BackgroundImage/BackgroundImage';
 import WeatherTemperature from '../WeatherTemperature/WeatherTemperature';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
-import * as mockUtils from '../../mocks/mockUtils';
+import * as mockUtils from '../../utils/mockUtils';
 import { WeatherMeta, WeatherData, getWeatherMeta, getWeatherData } from '../../utils/weatherUtils'
 import './App.css';
 import WeatherForecast from '../WeatherForecast/WeatherForecast';
@@ -72,19 +72,19 @@ class App extends Component<AppProps, AppState> {
     }
 
     async componentDidMount() {
-        if(this.state.weatherMeta === undefined) {
-            // Get Weather metadata
-            const weatherMeta = await getWeatherMeta();
+        // if(this.state.weatherMeta === undefined) {
+        //     // Get Weather metadata
+        //     const weatherMeta = await getWeatherMeta();
             
-            if(weatherMeta !== null) {
-                this.setState((prevState) => ({
-                    ...prevState,
-                    weatherMeta
-                }));
+        //     if(weatherMeta !== null) {
+        //         this.setState((prevState) => ({
+        //             ...prevState,
+        //             weatherMeta
+        //         }));
 
-                await this.updateWeather();
-            }
-        }
+        //         await this.updateWeather();
+        //     }
+        // }
 
         this.timerID = window.setInterval(() => this.updateTime(), 1000);
     }
@@ -103,9 +103,9 @@ class App extends Component<AppProps, AppState> {
     }
 
     async componentDidUpdate() {
-        if(this.state.secondsSinceLastUpdate / 60 === settings.weatherUpdateInterval) {
-            await this.updateWeather();
-        }
+        // if(this.state.secondsSinceLastUpdate / 60 === settings.weatherUpdateInterval) {
+        //     await this.updateWeather();
+        // }
     }
 
     componentWillUnmount() {
