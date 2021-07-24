@@ -4,15 +4,15 @@ import { WeatherData } from 'src/utils/weatherUtils';
 import './WeatherTemperature.css';
 
 interface WeatherTemperatureProps {
-    currentWeather?: WeatherData
+    weatherData?: WeatherData
 }
 
-const WeatherTemperature: FunctionComponent<WeatherTemperatureProps> = ({currentWeather}) => {
+const WeatherTemperature: FunctionComponent<WeatherTemperatureProps> = ({weatherData}) => {
     
     
     return(
         <div className="wc-WeatherTemperature">
-            <div className="wc-WeatherTemperature-currentTemp">{ currentWeather?.current?.temperature }°</div>
+            <div className="wc-WeatherTemperature-currentTemp">{ weatherData?.current?.temperature }°</div>
         </div>
     );
 }

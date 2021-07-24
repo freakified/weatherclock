@@ -1,5 +1,7 @@
 
 import { getSunrise, getSunset } from 'sunrise-sunset-js';
+import * as DaypartTags from '../data/imageTags/Dayparts';
+import * as WeatherTags from '../data/imageTags/WeatherConditions';
 
 class Daypart {
     private name: string;
@@ -94,3 +96,140 @@ export const getDaypartFromTime = (currentTime: Date, lat: number, lng: number) 
     return scaledDayparts.find(daypart => daypart.containsHour(hour))?.getName();
 };
 
+
+/**
+ * Returns the url for a wallpaper image matching the
+ * specified hour and weather tag
+ **/
+export const getNewBackground = (daypartName = 'Midday', weatherCondition = 'Clear') => {  
+    const availableImages = getImagesFromTags(daypartName, weatherCondition);
+    const borrowedImages = getBorrowedImages(daypartName, weatherCondition);
+
+    return getWallpaperImage(availableImages, borrowedImages);
+}
+
+const getImagesForDaypart = (daypartName: string) => {
+    switch(daypartName) {
+        case 'Afternoon':
+            return DaypartTags.Afternoon;
+        case 'Evening':
+            return DaypartTags.Evening;
+        case 'Midday':
+            return DaypartTags.Midday;
+        case 'Morning':
+            return DaypartTags.Morning;
+        case 'Night':
+            return DaypartTags.Night;
+        default:
+            return [];
+    }
+}
+
+const getImagesForWeatherCondition = (weatherCondition: string) => {
+    switch(weatherCondition) {
+        case 'Clear':
+            return WeatherTags.Clear;
+        case 'Cloudy':
+            return WeatherTags.Cloudy;
+        case 'Fog':
+            return WeatherTags.Fog;
+        case 'PartlyCloudy':
+            return WeatherTags.PartlyCloudy;
+        case 'Rain':
+            return WeatherTags.Rain;
+        case 'Snow':
+            return WeatherTags.Snow;
+        default:
+            return [];
+    }
+}
+
+
+/* returns a wallpaper image given a tag name for daypart and weather */
+const getImagesFromTags = (daypartName: string, weatherCondition: string) => {
+    const imagesForDaypart = getImagesForDaypart(daypartName);
+    const imagesForWeather = getImagesForWeatherCondition(weatherCondition);
+
+    // First, determine the set of images that matches the given criteria
+    const matchingImages = imagesForDaypart.filter(el => imagesForWeather.includes(el));
+
+    return matchingImages;
+}
+
+const getWallpaperImage = (availableImages: string[], borrowedImages: string[]) => {
+    // merge the two image sets
+    const allImages = Array.from(new Set([...availableImages, ...borrowedImages]));
+
+    // return a random image
+    return allImages[Math.floor(Math.random() * allImages.length)];
+}
+
+/*
+allow "borrowing" from other tags in specified situations.  
+if we're in a borrow situtation, this function will return the borrowable tag
+
+Snow:
+	Afternoon can borrow from Midday
+	Morning can borrow from Midday
+
+Fog:
+	Evening can borrow from Afternoon
+
+Rain: 
+	Morning can borrow from Midday
+	Afternoon can borrow from Midday
+
+Overcast:
+	Morning can borrow from Midday
+	Evening can borrow from Afternoon
+	Night can borrow from Clear (weather)
+
+PartlyCloudy:
+	Night can borrow from Clear (weather)
+*/
+const getBorrowedImages = (daypartName: string, weatherCondition: string) => {
+    // wow this code is ugly, i'd refactor it but I don't really feel like it
+    // TODO: refactor this 
+    let borrowedDaypart = daypartName;
+    let borrowedWeather = weatherCondition;
+
+    switch (weatherCondition) {
+        case 'Snow':
+            if (daypartName === 'Afternoon') {
+                borrowedDaypart = 'Midday';
+            } else if (daypartName === 'Morning') {
+
+            }
+            break;
+        case 'Fog':
+            if (daypartName === 'Evening') {
+                borrowedDaypart = 'Afternoon';
+            }
+            break;
+        case 'Rain':
+            if (daypartName === 'Morning' || daypartName === 'Afternoon') {
+                borrowedDaypart = 'Midday';
+            }
+            break;
+        case 'Overcast':
+            if (daypartName === 'Morning') {
+                borrowedDaypart = 'Midday';
+            } else if (daypartName === 'Evening') {
+                borrowedDaypart = 'Afternoon';
+            } else if (daypartName === 'Night') {
+                borrowedWeather = 'Clear';
+            }
+            break;
+        case 'PartlyCloudy':
+            if (daypartName === 'Night') {
+                borrowedWeather = 'Clear';
+            }
+            break;
+    }
+
+    // get the "borrowed" images
+    const borrowedImages = getImagesFromTags(borrowedDaypart, borrowedWeather);
+  
+    // now, filter that down to max 10 images (chosen randomly)
+    return borrowedImages.sort((a, b) => (0.5 - Math.random())).slice(0, 10);
+}

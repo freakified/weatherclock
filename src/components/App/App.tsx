@@ -39,8 +39,8 @@ class App extends Component<AppProps, AppState> {
                 
                 { this.state.weatherData && 
                 <div className="wc-App-upperContainer">
-                    <WeatherTemperature currentWeather={this.state.weatherData} />
-                    <WeatherForecast currentWeather={this.state.weatherData} />
+                    <WeatherTemperature weatherData={this.state.weatherData} />
+                    <WeatherForecast weatherData={this.state.weatherData} />
                 </div>}
 
                 <div className="wc-App-flexSpacer"></div>
@@ -57,7 +57,8 @@ class App extends Component<AppProps, AppState> {
                 </div>
 
                 <BackgroundImage
-                    currentWeather={this.state.weatherData}
+                    weatherData={this.state.weatherData}
+                    weatherMeta={this.state.weatherMeta}
                     currentTime={this.state.currentTime} />
             </div>
         );
@@ -72,19 +73,19 @@ class App extends Component<AppProps, AppState> {
     }
 
     async componentDidMount() {
-        // if(this.state.weatherMeta === undefined) {
-        //     // Get Weather metadata
-        //     const weatherMeta = await getWeatherMeta();
+        if(this.state.weatherMeta === undefined) {
+            // Get Weather metadata
+            const weatherMeta = await getWeatherMeta();
             
-        //     if(weatherMeta !== null) {
-        //         this.setState((prevState) => ({
-        //             ...prevState,
-        //             weatherMeta
-        //         }));
+            if(weatherMeta !== null) {
+                this.setState((prevState) => ({
+                    ...prevState,
+                    weatherMeta
+                }));
 
-        //         await this.updateWeather();
-        //     }
-        // }
+                await this.updateWeather();
+            }
+        }
 
         this.timerID = window.setInterval(() => this.updateTime(), 1000);
     }
@@ -103,9 +104,9 @@ class App extends Component<AppProps, AppState> {
     }
 
     async componentDidUpdate() {
-        // if(this.state.secondsSinceLastUpdate / 60 === settings.weatherUpdateInterval) {
-        //     await this.updateWeather();
-        // }
+        if(this.state.secondsSinceLastUpdate / 60 === settings.weatherUpdateInterval) {
+            await this.updateWeather();
+        }
     }
 
     componentWillUnmount() {

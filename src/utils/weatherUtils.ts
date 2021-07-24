@@ -78,7 +78,7 @@ const fetchNewWeatherData = async (weatherMeta: WeatherMeta) => {
 
     const observationResponse = await fetch(weatherMeta.observationURI);
     const observationData = await observationResponse.json();
-
+    
     return({
         lastUpdated: new Date(),
         forecast: {
@@ -105,7 +105,7 @@ const getCachedWeatherMeta = () => {
 
 const getCachedWeatherData = () => {
     const rawCachedData = localStorage.getItem('weatherData');
-
+    
     if(rawCachedData !== null) {
         return JSON.parse(rawCachedData) as WeatherData;
     } else {
