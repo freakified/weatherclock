@@ -80,10 +80,9 @@ class App extends Component<AppProps, AppState> {
             if(weatherMeta !== null) {
                 this.setState((prevState) => ({
                     ...prevState,
-                    weatherMeta
+                    weatherMeta,
+                    secondsSinceLastUpdate: 99999
                 }));
-
-                await this.updateWeather();
             }
         }
 
@@ -104,7 +103,7 @@ class App extends Component<AppProps, AppState> {
     }
 
     async componentDidUpdate() {
-        if(this.state.secondsSinceLastUpdate / 60 === settings.weatherUpdateInterval) {
+        if(this.state.secondsSinceLastUpdate / 60 > settings.weatherUpdateInterval) {
             await this.updateWeather();
         }
     }
