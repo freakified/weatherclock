@@ -29,7 +29,7 @@ const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, 
                 console.log(`Updated bg, Weather: ${currentWeather} Daypart: ${currentDaypart}`);
             }
         }
-    });
+    }, [weatherData, secondsSinceLastUpdate]);
 
     return(
         <div

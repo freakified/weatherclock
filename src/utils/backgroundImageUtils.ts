@@ -40,22 +40,17 @@ class Daypart {
    **/
 export const getDaypartFromTime = (currentTime: Date, lat: number, lng: number) => {
     // Get the hour and local timezone offset
-    const hour = currentTime.getUTCHours();
-
-    // let's just pretend fractional TZ offsets don't exist
-    const localTZOffset = Math.floor(currentTime.getTimezoneOffset() / 60);
-
-    const hourToUTC = (hour: number) => (hour - localTZOffset);
+    const hour = currentTime.getHours();
     
     // We begin with my vague approximations of when the day parts are
     // (note that we'll scale them based on sunrise and sunset later)
     const unscaledDayparts = [
-        new Daypart('Night', hourToUTC(0), hourToUTC(5)),
-        new Daypart('Morning', hourToUTC(6), hourToUTC(8)),
-        new Daypart('Midday', hourToUTC(9), hourToUTC(14)),
-        new Daypart('Afternoon', hourToUTC(15), hourToUTC(17)),
-        new Daypart('Evening', hourToUTC(18), hourToUTC(20)),
-        new Daypart('Night', hourToUTC(21), hourToUTC(23))
+        new Daypart('Night', 0, 5),
+        new Daypart('Morning', 6, 8),
+        new Daypart('Midday', 9, 14),
+        new Daypart('Afternoon', 15, 17),
+        new Daypart('Evening', 18, 20),
+        new Daypart('Night', 21, 23)
     ];
 
     // get the sunrise and sunset times
@@ -64,8 +59,8 @@ export const getDaypartFromTime = (currentTime: Date, lat: number, lng: number) 
                 
     //round sunrise and sunset to the nearest hour
     //not as accurate, but much easier to fit into the existing hour-based system
-    const sunriseHour = sunriseTime.getUTCHours(); // Round down (floor)
-    const sunsetHour = sunsetTime.getUTCHours() + 1; // Round up (ciel)
+    const sunriseHour = sunriseTime.getHours(); // Round down (floor)
+    const sunsetHour = sunsetTime.getHours() + 1; // Round up (ciel)
     
     //now scale all the non-night day parts based on the sunrise/set hour
     const scaledDaylightLength = sunriseHour - sunsetHour;
