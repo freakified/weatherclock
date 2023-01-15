@@ -31,3 +31,10 @@ export const getMinutesBetweenDates = (startDate: Date, endDate: Date) => {
     const durationMs = (endDate.getTime()) - (startDate.getTime());
     return Math.floor(durationMs / 60000);
 }
+
+export const getRoundedDate = (roundToMinutes: number, date: Date) => {
+    const ms = 1000 * 60 * roundToMinutes;
+    const roundedDate = new Date(Math.round(date.getTime() / ms) * ms);
+  
+    return roundedDate;
+}

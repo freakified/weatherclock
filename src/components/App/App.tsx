@@ -59,7 +59,8 @@ class App extends Component<AppProps, AppState> {
                 <BackgroundImage
                     weatherData={this.state.weatherData}
                     weatherMeta={this.state.weatherMeta}
-                    currentTime={this.state.currentTime} />
+                    currentTime={this.state.currentTime}
+                    secondsSinceLastUpdate={this.state.secondsSinceLastUpdate} />
             </div>
         );
     }

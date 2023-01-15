@@ -1,43 +1,42 @@
 
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getDaypartFromTime, getNewBackground } from '../../utils/backgroundImageUtils';
 import { WeatherData, WeatherMeta } from '../../utils/weatherUtils';
 import { defaultSettings } from '../../utils/settingsUtils';
-import { getMinutesBetweenDates } from '../../utils/timeUtils';
+import { getMinutesBetweenDates, getRoundedDate } from '../../utils/timeUtils';
 
 import './BackgroundImage.css';
 
 interface BackgroundImageProps {
     currentTime: Date
+    secondsSinceLastUpdate: number
     weatherData?: WeatherData
     weatherMeta?: WeatherMeta
 }
 
-// const [lastUpdateTime, setLastUpdateTime] = useState(new Date(0));
 
-const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, weatherData, weatherMeta}) => {
-    // if(getMinutesBetweenDates(lastUpdateTime, new Date()) >)
+const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, secondsSinceLastUpdate, weatherData, weatherMeta}) => {
+    const [backgroundImageURL, setBackgroundImageURL] = useState('');
     
-    // setTimeSinceLastUpdate()
-    if(weatherData !== undefined && weatherMeta !== undefined) {
-        const currentDaypart = getDaypartFromTime(currentTime, weatherMeta.lat, weatherMeta.lng);
-        const currentWeather = weatherData.current.description || "Clear";
-        const selectedImage = getNewBackground(currentDaypart, currentWeather);
+    useEffect(() => {
+        if(secondsSinceLastUpdate % 30 === 0) {
+            if(weatherData !== undefined && weatherMeta !== undefined) {
+                const currentDaypart = getDaypartFromTime(currentTime, weatherMeta.lat, weatherMeta.lng);
+                const currentWeather = weatherData.current.description || "Clear";
+                const selectedImage = getNewBackground(currentDaypart, currentWeather);
 
-        const backgroundImage = `${process.env.PUBLIC_URL}/photos/${selectedImage}`;
+                setBackgroundImageURL(`${process.env.PUBLIC_URL}/photos/${selectedImage}`);
+                console.log(`Updated bg, Weather: ${currentWeather} Daypart: ${currentDaypart}`);
+            }
+        }
+    });
 
-        console.log(`Weather: ${currentWeather} Daypart: ${currentDaypart}`);
-
-        return(
-            <div
-                className="wc-BackgroundImage"
-                style={{backgroundImage: `url('${backgroundImage}')`}}>
-            </div>
-        );
-    } else {
-        return null;
-        
-    }
+    return(
+        <div
+            className="wc-BackgroundImage"
+            style={{backgroundImage: `url('${backgroundImageURL}')`}}>
+        </div>
+    );
 }
 
 export default BackgroundImage;
