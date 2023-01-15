@@ -1,4 +1,4 @@
-export default [
+const clear = [
     '12-16-05_1630.JPG',
     '12-23-05_1630.JPG',
     'IMG_0074.JPG',
@@ -181,4 +181,6 @@ export default [
     'iPhone2G_IMG_0274.JPG',
     'iPhone2G_IMG_0275.JPG',
     'iPhone2G_IMG_0454.JPG'
-]
+];
+
+export default clear;

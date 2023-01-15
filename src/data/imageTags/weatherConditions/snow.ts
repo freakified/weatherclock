@@ -1,4 +1,4 @@
-export default ['IMG_0112.JPG',
+const snow = ['IMG_0112.JPG',
 'IMG_0118.JPG',
 'IMG_0277.JPG',
 'IMG_0278.JPG',
@@ -95,3 +95,5 @@ export default ['IMG_0112.JPG',
 'STA_1705.JPG',
 'iPhone2G_IMG_0086.JPG',
 'iPhone2G_IMG_0266.JPG'];
+
+export default snow;

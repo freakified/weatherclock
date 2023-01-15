@@ -4,7 +4,6 @@ import ClockDate from '../ClockDate/ClockDate';
 import BackgroundImage from '../BackgroundImage/BackgroundImage';
 import WeatherTemperature from '../WeatherTemperature/WeatherTemperature';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
-import * as mockUtils from '../../utils/mockUtils';
 import { WeatherMeta, WeatherData, getWeatherMeta, getWeatherData } from '../../utils/weatherUtils'
 import './App.css';
 import WeatherForecast from '../WeatherForecast/WeatherForecast';

@@ -1,4 +1,4 @@
-export default ['09-22-06_0732.JPG',
+const partlyCloudy = ['09-22-06_0732.JPG',
 '10-03-07_1823.JPG',
 '10-26-05_1759.JPG',
 '11-03-05_1646.JPG',
@@ -177,3 +177,5 @@ export default ['09-22-06_0732.JPG',
 'iPhone2G_IMG_0251.JPG',
 'iPhone2G_IMG_0352.JPG',
 'iPhone2G_IMG_0453.JPG'];
+
+export default partlyCloudy;

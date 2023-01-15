@@ -1,4 +1,4 @@
-export default ['IMG_0001.JPG',
+const rain = ['IMG_0001.JPG',
 'IMG_0002.JPG',
 'IMG_0011.JPG',
 'IMG_0116.JPG',
@@ -84,3 +84,5 @@ export default ['IMG_0001.JPG',
 'iPhone2G_IMG_0317.JPG',
 'iPhone2G_IMG_0500.JPG',
 'iPhone2G_IMG_0502.JPG'];
+
+export default rain;

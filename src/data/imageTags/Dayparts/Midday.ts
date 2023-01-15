@@ -1,4 +1,4 @@
-export default ['IMG_0001.JPG',
+const midday = ['IMG_0001.JPG',
 'IMG_0002.JPG',
 'IMG_0011.JPG',
 'IMG_0074.JPG',
@@ -238,3 +238,5 @@ export default ['IMG_0001.JPG',
 'iPhone2G_IMG_0266.JPG',
 'iPhone2G_IMG_0500.JPG',
 'iPhone2G_IMG_0502.JPG'];
+
+export default midday;

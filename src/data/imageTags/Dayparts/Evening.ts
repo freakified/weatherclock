@@ -1,4 +1,4 @@
-export default ['10-03-07_1823.JPG',
+const evening = ['10-03-07_1823.JPG',
 '10-26-05_1759.JPG',
 '11-03-05_1646.JPG',
 '11-13-05_1626.JPG',
@@ -121,3 +121,5 @@ export default ['10-03-07_1823.JPG',
 'iPhone2G_IMG_0262.JPG',
 'iPhone2G_IMG_0317.JPG',
 'iPhone2G_IMG_0352.JPG'];
+
+export default evening;

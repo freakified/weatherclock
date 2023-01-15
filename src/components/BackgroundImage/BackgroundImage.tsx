@@ -2,8 +2,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getDaypartFromTime, getNewBackground } from '../../utils/backgroundImageUtils';
 import { WeatherData, WeatherMeta } from '../../utils/weatherUtils';
-import { defaultSettings } from '../../utils/settingsUtils';
-import { getMinutesBetweenDates, getRoundedDate } from '../../utils/timeUtils';
 
 import './BackgroundImage.css';
 
@@ -29,7 +27,7 @@ const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, 
                 console.log(`Updated bg, Weather: ${currentWeather} Daypart: ${currentDaypart}`);
             }
         }
-    }, [weatherData, secondsSinceLastUpdate]);
+    }, [weatherData, currentTime, weatherMeta, secondsSinceLastUpdate]);
 
     return(
         <div

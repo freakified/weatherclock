@@ -1,4 +1,4 @@
-export default ['IMG_0145.JPG',
+const fog = ['IMG_0145.JPG',
 'IMG_0220.JPG',
 'IMG_0223.JPG',
 'IMG_0233.JPG',
@@ -31,3 +31,5 @@ export default ['IMG_0145.JPG',
 'RebelXS_IMG_3452.JPG',
 'RebelXS_IMG_3456.JPG',
 'RebelXS_IMG_3569.JPG'];
+
+export default fog;

@@ -1,4 +1,4 @@
-export default [
+const cloudy = [
 '09-22-06_0732.JPG',
 'IMG_0001.JPG',
 'IMG_0010.JPG',
@@ -76,3 +76,5 @@ export default [
 'iPhone2G_IMG_0109.JPG',
 'iPhone2G_IMG_0185.JPG',
 'iPhone2G_IMG_0347.JPG'];
+
+export default cloudy;
