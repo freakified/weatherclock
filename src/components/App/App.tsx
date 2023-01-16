@@ -34,7 +34,7 @@ class App extends Component<AppProps, AppState> {
     
     render() {
         return (
-            <div className="wc-App">
+            <div className="wc-App" onClick={() => this.toggleFullScreen() } >
                 
                 { this.state.weatherData && 
                 <div className="wc-App-upperContainer">
@@ -71,6 +71,14 @@ class App extends Component<AppProps, AppState> {
             secondsSinceLastUpdate: prevState.secondsSinceLastUpdate + 1
         }));
     }
+
+    toggleFullScreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
 
     async componentDidMount() {
         if(this.state.weatherMeta === undefined) {
