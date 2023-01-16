@@ -118,7 +118,13 @@ export const getWeatherMeta = async () => {
     const cachedWeatherMeta = getCachedWeatherMeta();
 
     // get current location (if possible)
-    const location = await getLocation();
+    // const location = await getLocation();
+    const location = {
+        coords: {
+            latitude: 37.79212008680284,
+            longitude: -122.41721105286786
+        }
+    };
     
     if(location === null) {
         if(cachedWeatherMeta !== null) {
