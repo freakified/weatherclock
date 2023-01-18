@@ -124,6 +124,9 @@ export const getWeatherMeta = async () => {
             latitude: 37.79212008680284,
             longitude: -122.41721105286786
         }
+
+        // cherry hill 39.92297731785307, -74.98600043159324
+        // san francisco 37.79212008680284, -122.41721105286786
     };
     
     if(location === null) {

@@ -125,10 +125,12 @@ const getImagesForWeatherCondition = (weatherCondition: string) => {
         case 'Clear':
             return WeatherTags.Clear;
         case 'Cloudy':
+        case 'Mostly Cloudy':
             return WeatherTags.Cloudy;
         case 'Fog':
             return WeatherTags.Fog;
-        case 'PartlyCloudy':
+        case 'Partly Sunny':
+        case 'Partly Cloudy':
             return WeatherTags.PartlyCloudy;
         case 'Rain':
             return WeatherTags.Rain;
@@ -206,7 +208,7 @@ const getBorrowedImages = (daypartName: string, weatherCondition: string) => {
                 borrowedDaypart = 'Midday';
             }
             break;
-        case 'Overcast':
+        case 'Cloudy':
             if (daypartName === 'Morning') {
                 borrowedDaypart = 'Midday';
             } else if (daypartName === 'Evening') {

@@ -39,7 +39,7 @@ class App extends Component<AppProps, AppState> {
                 { this.state.weatherData && 
                 <div className="wc-App-upperContainer">
                     <WeatherTemperature weatherData={this.state.weatherData} />
-                    <WeatherForecast weatherData={this.state.weatherData} />
+                    <WeatherForecast weatherData={this.state.weatherData} weatherMeta={this.state.weatherMeta} />
                 </div>}
 
                 <div className="wc-App-flexSpacer"></div>
