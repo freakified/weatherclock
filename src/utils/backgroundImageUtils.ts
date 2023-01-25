@@ -97,8 +97,12 @@ export const getDaypartFromTime = (currentTime: Date, lat: number, lng: number) 
  * specified hour and weather tag
  **/
 export const getNewBackground = (daypartName = 'Midday', weatherCondition = 'Clear') => {  
+    console.log(`Searching for backgrounds with weather "${weatherCondition}" and daypart "${daypartName}"...`);
     const availableImages = getImagesFromTags(daypartName, weatherCondition);
     const borrowedImages = getBorrowedImages(daypartName, weatherCondition);
+    
+    console.log(availableImages);
+    console.log(borrowedImages);
 
     return getWallpaperImage(availableImages, borrowedImages);
 }
@@ -123,6 +127,8 @@ const getImagesForDaypart = (daypartName: string) => {
 const getImagesForWeatherCondition = (weatherCondition: string) => {
     switch(weatherCondition) {
         case 'Clear':
+        case 'Sunny':
+        case 'Mostly Clear':
             return WeatherTags.Clear;
         case 'Cloudy':
         case 'Mostly Cloudy':
@@ -137,7 +143,7 @@ const getImagesForWeatherCondition = (weatherCondition: string) => {
         case 'Snow':
             return WeatherTags.Snow;
         default:
-            return [];
+            return []; // TODO: Use clear as fallback; but for now we shouldn't do it to find failures
     }
 }
 

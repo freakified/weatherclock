@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ClockTime from '../ClockTime/ClockTime';
 import ClockDate from '../ClockDate/ClockDate';
 import BackgroundImage from '../BackgroundImage/BackgroundImage';
-import WeatherTemperature from '../WeatherTemperature/WeatherTemperature';
+import WeatherCurrent from '../WeatherCurrent/WeatherCurrent';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
 import { WeatherMeta, WeatherData, getWeatherMeta, getWeatherData } from '../../utils/weatherUtils'
 import './App.css';
@@ -38,7 +38,7 @@ class App extends Component<AppProps, AppState> {
                 
                 { this.state.weatherData && 
                 <div className="wc-App-upperContainer">
-                    <WeatherTemperature weatherData={this.state.weatherData} />
+                    <WeatherCurrent weatherData={this.state.weatherData} />
                     <WeatherForecast weatherData={this.state.weatherData} weatherMeta={this.state.weatherMeta} />
                 </div>}
 

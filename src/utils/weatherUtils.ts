@@ -76,8 +76,8 @@ const fetchNewWeatherData = async (weatherMeta: WeatherMeta) => {
     const forecastResponse = await fetch(weatherMeta.forecastURI);
     const forecastData = await forecastResponse.json();
 
-    const observationResponse = await fetch(weatherMeta.observationURI);
-    const observationData = await observationResponse.json();
+    // const observationResponse = await fetch(weatherMeta.observationURI);
+    // const observationData = await observationResponse.json();
     
     return({
         lastUpdated: new Date(),
@@ -87,8 +87,8 @@ const fetchNewWeatherData = async (weatherMeta: WeatherMeta) => {
             detailedForecast: forecastData.properties.periods[0].detailedForecast
         },
         current: {
-            description: observationData.features[0].properties.textDescription,
-            temperature: cToF(observationData.features[0].properties.temperature.value)
+            description: forecastData.properties.periods[0].shortForecast,
+            temperature: forecastData.properties.periods[0].temperature
         }
     });
 }
