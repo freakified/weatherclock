@@ -1,7 +1,7 @@
 
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getDaypartFromTime, getNewBackground } from '../../utils/backgroundImageUtils';
-import { WeatherData, WeatherMeta } from '../../utils/weatherUtils';
+import { WeatherData } from '../../utils/weatherUtils';
 
 import './BackgroundImage.css';
 
@@ -9,17 +9,16 @@ interface BackgroundImageProps {
     currentTime: Date
     secondsSinceLastUpdate: number
     weatherData?: WeatherData
-    weatherMeta?: WeatherMeta
 }
 
 
-const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, secondsSinceLastUpdate, weatherData, weatherMeta}) => {
+const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, secondsSinceLastUpdate, weatherData}) => {
     const [backgroundImageURL, setBackgroundImageURL] = useState('');
     
     useEffect(() => {
         if(secondsSinceLastUpdate % 30 === 0) {
-            if(weatherData !== undefined && weatherMeta !== undefined) {
-                const currentDaypart = getDaypartFromTime(currentTime, weatherMeta.lat, weatherMeta.lng);
+            if(weatherData !== undefined ) {
+                const currentDaypart = getDaypartFromTime(currentTime, weatherData.lat, weatherData.lng);
                 const currentWeather = weatherData.current.description || "Clear";
                 const selectedImage = getNewBackground(currentDaypart, currentWeather);
 
@@ -27,7 +26,7 @@ const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, 
                 console.log(`Updated bg, Weather: ${currentWeather} Daypart: ${currentDaypart}`);
             }
         }
-    }, [weatherData, currentTime, weatherMeta, secondsSinceLastUpdate]);
+    }, [weatherData, currentTime, secondsSinceLastUpdate]);
 
     return(
         <div

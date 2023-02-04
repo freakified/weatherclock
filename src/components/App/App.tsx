@@ -4,7 +4,7 @@ import ClockDate from '../ClockDate/ClockDate';
 import BackgroundImage from '../BackgroundImage/BackgroundImage';
 import WeatherCurrent from '../WeatherCurrent/WeatherCurrent';
 import { defaultSettings as settings } from '../../utils/settingsUtils';
-import { WeatherMeta, WeatherData, getWeatherMeta, getWeatherData } from '../../utils/weatherUtils'
+import { WeatherData, getWeatherData } from '../../utils/weatherUtils'
 import './App.css';
 import WeatherForecast from '../WeatherForecast/WeatherForecast';
 
@@ -13,9 +13,7 @@ interface AppProps {
 }
 
 interface AppState {
-    weatherMeta?: WeatherMeta
     weatherData?: WeatherData
-
     currentTime: Date
     secondsSinceLastUpdate: number
 }
@@ -28,7 +26,7 @@ class App extends Component<AppProps, AppState> {
 
         this.state = {
             currentTime: new Date(),
-            secondsSinceLastUpdate: 0
+            secondsSinceLastUpdate: 999999
         };
     }
     
@@ -39,7 +37,7 @@ class App extends Component<AppProps, AppState> {
                 { this.state.weatherData && 
                 <div className="wc-App-upperContainer">
                     <WeatherCurrent weatherData={this.state.weatherData} />
-                    <WeatherForecast weatherData={this.state.weatherData} weatherMeta={this.state.weatherMeta} />
+                    <WeatherForecast weatherData={this.state.weatherData} />
                 </div>}
 
                 <div className="wc-App-flexSpacer"></div>
@@ -57,7 +55,6 @@ class App extends Component<AppProps, AppState> {
 
                 <BackgroundImage
                     weatherData={this.state.weatherData}
-                    weatherMeta={this.state.weatherMeta}
                     currentTime={this.state.currentTime}
                     secondsSinceLastUpdate={this.state.secondsSinceLastUpdate} />
             </div>
@@ -81,33 +78,19 @@ class App extends Component<AppProps, AppState> {
       }
 
     async componentDidMount() {
-        if(this.state.weatherMeta === undefined) {
-            // Get Weather metadata
-            const weatherMeta = await getWeatherMeta();
-            
-            if(weatherMeta !== null) {
-                this.setState((prevState) => ({
-                    ...prevState,
-                    weatherMeta,
-                    secondsSinceLastUpdate: 99999
-                }));
-            }
-        }
 
         this.timerID = window.setInterval(() => this.updateTime(), 1000);
     }
 
     async updateWeather() {
-        if(this.state.weatherMeta !== undefined) {
-            // Get weather info
-            const weatherData = await getWeatherData(this.state.weatherMeta);
+        // Get weather info
+        const weatherData = await getWeatherData();
 
-            this.setState((prevState) => ({
-                ...prevState,
-                weatherData,
-                secondsSinceLastUpdate: 0
-            }));
-        }
+        this.setState((prevState) => ({
+            ...prevState,
+            weatherData,
+            secondsSinceLastUpdate: 0
+        }));
     }
 
     async componentDidUpdate() {
