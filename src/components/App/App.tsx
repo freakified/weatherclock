@@ -3,7 +3,7 @@ import ClockTime from '../ClockTime/ClockTime';
 import ClockDate from '../ClockDate/ClockDate';
 import BackgroundImage from '../BackgroundImage/BackgroundImage';
 import WeatherCurrent from '../WeatherCurrent/WeatherCurrent';
-import { defaultSettings as settings } from '../../utils/settingsUtils';
+import { getCurrentSettings } from '../../utils/settingsUtils';
 import { WeatherData, getWeatherData } from '../../utils/weatherUtils'
 import './App.css';
 import WeatherForecast from '../WeatherForecast/WeatherForecast';
@@ -20,6 +20,7 @@ interface AppState {
 
 class App extends Component<AppProps, AppState> {
     private timerID?: number; 
+    private wakeLock?: WakeLockSentinel;
 
     constructor(props: AppProps) {
         super(props);
@@ -49,7 +50,6 @@ class App extends Component<AppProps, AppState> {
                     <div className="wc-App-spacer"></div>
                     <ClockTime
                         currentTime={this.state.currentTime}
-                        use12HourTime={settings.use12HourMode}
                     />
                 </div>
 
@@ -77,10 +77,25 @@ class App extends Component<AppProps, AppState> {
         }
       }
 
-    async componentDidMount() {
-
+    componentDidMount() {
+        // attempt to request wake lock
+        this.requestWakeLock();
+        
+        // set auto update timer
         this.timerID = window.setInterval(() => this.updateTime(), 1000);
     }
+    
+    async requestWakeLock() {
+        try {
+            this.wakeLock = await navigator.wakeLock.request('screen');
+            this.wakeLock.addEventListener('release', () => {
+                console.log('Wake Lock was released');
+            });
+            console.log('Wake Lock is active');
+        } catch (err: any) {
+            console.error(`${err.name}, ${err.message}`);
+        }
+    };
 
     async updateWeather() {
         // Get weather info
@@ -94,13 +109,15 @@ class App extends Component<AppProps, AppState> {
     }
 
     async componentDidUpdate() {
-        if(this.state.secondsSinceLastUpdate / 60 > settings.weatherUpdateInterval) {
+        if(this.state.secondsSinceLastUpdate / 60 > getCurrentSettings().weatherUpdateInterval) {
             await this.updateWeather();
         }
     }
 
     componentWillUnmount() {
         clearInterval(this.timerID);
+        this.wakeLock?.release();
+        this.wakeLock = undefined;
     }
 }
     

@@ -31,3 +31,14 @@
     top: 30px;
     left: -10px;
 }
+
+.wc-ClockTime-ampm {
+    font-size: 24px;
+    opacity: 0.75;
+    line-height: 1;
+    align-self: end;
+    margin-bottom: 14px;
+    margin-left: -4px;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+}
