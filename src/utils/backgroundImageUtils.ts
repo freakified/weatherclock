@@ -130,14 +130,16 @@ const getImagesForWeatherCondition = (weatherCondition: string) => {
         case 'Sunny':
         case 'Mostly Clear':
             return WeatherTags.Clear;
+        case 'A Few Clouds':
+        case 'Partly Sunny':
+        case 'Partly Cloudy':
+        case 'NA': // sometimes NWS gives us "NA" as the condition, so...Party Cloudy? I guess?
+            return WeatherTags.PartlyCloudy;
         case 'Cloudy':
         case 'Mostly Cloudy':
             return WeatherTags.Cloudy;
         case 'Fog':
             return WeatherTags.Fog;
-        case 'Partly Sunny':
-        case 'Partly Cloudy':
-            return WeatherTags.PartlyCloudy;
         case 'Rain':
             return WeatherTags.Rain;
         case 'Snow':

@@ -2,6 +2,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getDaypartFromTime, getNewBackground } from '../../utils/backgroundImageUtils';
 import { WeatherData } from '../../utils/weatherUtils';
+import { defaultSettings } from 'src/utils/settingsUtils';
 
 import './BackgroundImage.css';
 
@@ -16,7 +17,8 @@ const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, 
     const [backgroundImageURL, setBackgroundImageURL] = useState('');
     
     useEffect(() => {
-        if(secondsSinceLastUpdate % 30 === 0) {
+        // todo: make this changable instead of using global default setting
+        if(secondsSinceLastUpdate % (defaultSettings.backgroundImageInterval * 60) === 0) {
             if(weatherData !== undefined ) {
                 const currentDaypart = getDaypartFromTime(currentTime, weatherData.lat, weatherData.lng);
                 const currentWeather = weatherData.current.description || "Clear";

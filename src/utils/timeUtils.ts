@@ -14,17 +14,8 @@ export const getFormattedMinute = (currentTime: Date) => {
     return minutesString.length > 1 ? minutesString : '0' + minutesString;
 }
 
-export const getFormattedDay = (currentTime: Date) => {
-    // One day, I will do proper internationalization. Today is not that day.
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-    return dayNames[currentTime.getDay()];
-}
-
 export const getFormattedDate = (currentTime: Date) => {
-    const monthNames = ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-
-    return `${monthNames[currentTime.getMonth()]} ${currentTime.getDate()}`;
+    return currentTime.toLocaleDateString('en-us', { weekday: 'long', month:"long", day: 'numeric'});
 }
 
 export const getMinutesBetweenDates = (startDate: Date, endDate: Date) => {

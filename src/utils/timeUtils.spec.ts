@@ -58,34 +58,6 @@ test('AM/PM works', () => {
     ).toBe('AM');
 });
 
-test('Day format works', () => {
-    expect(
-        TimeUtils.getFormattedDay(new Date("2021-01-01T00:00:00"))
-    ).toBe('Fri');
-
-    expect(
-        TimeUtils.getFormattedDay(new Date("2021-01-02T00:00:00"))
-    ).toBe('Sat');
-
-    expect(
-        TimeUtils.getFormattedDay(new Date("2021-01-03T00:00:00"))
-    ).toBe('Sun');
-});
-
-test('Date format works', () => {
-    expect(
-        TimeUtils.getFormattedDate(new Date("2020-01-01T00:00:00"))
-    ).toBe('Jan 1');
-
-    expect(
-        TimeUtils.getFormattedDate(new Date("2020-01-02T00:00:00"))
-    ).toBe('Jan 2');
-
-    expect(
-        TimeUtils.getFormattedDate(new Date("2020-01-03T00:00:00"))
-    ).toBe('Jan 3');
-});
-
 test('Duration calculation works', () => {
     expect(
         TimeUtils.getMinutesBetweenDates(new Date("2020-01-01T00:00:00"), new Date("2020-01-01T00:30:00"))
