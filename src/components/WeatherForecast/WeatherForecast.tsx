@@ -18,7 +18,7 @@ const WeatherForecast: FunctionComponent<WeatherForecastProps> = ({weatherData})
         <div className="wc-WeatherForecast">
             <div className="wc-WeatherForecast-header">
                 <div className="wc-WeatherForecast-name">{ weatherData?.forecast.name }</div>
-                <div className="wc-WeatherForecast-lastUpdated">{ `${weatherData?.station?.name}, ${updateMinutesAgo} min ago` } </div>
+                {/* <div className="wc-WeatherForecast-lastUpdated">{ `${weatherData?.station?.name}, ${updateMinutesAgo} min ago` } </div> */}
             </div>
             <div className="wc-WeatherForecast-details">{ weatherData?.forecast?.detailedForecast }</div>
         </div>

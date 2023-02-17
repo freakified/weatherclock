@@ -139,6 +139,7 @@ const getImagesForWeatherCondition = (weatherCondition: string) => {
         case 'Mostly Cloudy':
             return WeatherTags.Cloudy;
         case 'Fog':
+        case 'Fog/Mist':
             return WeatherTags.Fog;
         case 'Rain':
             return WeatherTags.Rain;

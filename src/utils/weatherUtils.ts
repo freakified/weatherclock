@@ -56,7 +56,7 @@ const fetchNewWeatherData = async (lat: number, lng: number) => {
             detailedForecast: mapClickData.data.text[0]
         },
         current: {
-            description: mapClickData.currentobservation.Weather,
+            description: String(mapClickData.currentobservation.Weather).trim(),
             temperature: mapClickData.currentobservation.Temp
         }
 
@@ -81,15 +81,15 @@ export const getWeatherData = async (maxWeatherAge: number = 25) => {
     // const location = await getLocation();
     const location = {
         // cherry hill
-        // coords: {
-        //     latitude: 39.92297731785307,
-        //     longitude: -74.98600043159324
-        // }
-        // san francisco
         coords: {
-            latitude: 37.79212008680284,
-            longitude: -122.41721105286786
+            latitude: 39.92297731785307,
+            longitude: -74.98600043159324
         }
+        // san francisco
+        // coords: {
+        //     latitude: 37.79212008680284,
+        //     longitude: -122.41721105286786
+        // }
     };
     
     if(location === null) {
