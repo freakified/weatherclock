@@ -17,6 +17,7 @@ export interface WeatherData {
     current: {
         description: string
         temperature: number
+        weatherImageName: string
     }
 }
 
@@ -57,9 +58,9 @@ const fetchNewWeatherData = async (lat: number, lng: number) => {
         },
         current: {
             description: String(mapClickData.currentobservation.Weather).trim(),
-            temperature: mapClickData.currentobservation.Temp
+            temperature: mapClickData.currentobservation.Temp,
+            weatherImageName: mapClickData.currentobservation.Weatherimage
         }
-
     });
 }
 

@@ -21,7 +21,7 @@ const BackgroundImage: FunctionComponent<BackgroundImageProps> = ({currentTime, 
         if(secondsSinceLastUpdate % (defaultSettings.backgroundImageInterval * 60) === 0) {
             if(weatherData !== undefined ) {
                 const currentDaypart = getDaypartFromTime(currentTime, weatherData.lat, weatherData.lng);
-                const currentWeather = weatherData.current.description || "Clear";
+                const currentWeather = weatherData.current.weatherImageName || 'skc.png';
                 const selectedImage = getNewBackground(currentDaypart, currentWeather);
 
                 setBackgroundImageURL(`${process.env.PUBLIC_URL}/photos/${selectedImage}`);

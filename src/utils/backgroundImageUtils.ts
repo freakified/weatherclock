@@ -124,26 +124,53 @@ const getImagesForDaypart = (daypartName: string) => {
     }
 }
 
+// based on the icon list from https://w1.weather.gov/xml/current_obs/weather.php
 const getImagesForWeatherCondition = (weatherCondition: string) => {
     switch(weatherCondition) {
-        case 'Clear':
-        case 'Sunny':
-        case 'Mostly Clear':
+        case 'skc.png':
+        case 'nskc.png':
+        case 'few.png':
+        case 'nfew.png':
             return WeatherTags.Clear;
-        case 'A Few Clouds':
-        case 'Partly Sunny':
-        case 'Partly Cloudy':
-        case 'NA': // sometimes NWS gives us "NA" as the condition, so...Party Cloudy? I guess?
+        case 'sct.png':
+        case 'nsct.png':
+        case 'wind.png': // note that "wind" isn't really partly cloudy but what are you gonna do
+        case 'nwind.png':
             return WeatherTags.PartlyCloudy;
-        case 'Cloudy':
-        case 'Mostly Cloudy':
+        case 'bkn.png':
+        case 'nbkn.png':
+        case 'ovc.png':
+        case 'novc.png':
             return WeatherTags.Cloudy;
-        case 'Fog':
-        case 'Fog/Mist':
+        case 'fg.png':
+        case 'nfg.png':
+        case 'smoke.png':
+        case 'dust.png':
+        case 'mist.png':
             return WeatherTags.Fog;
-        case 'Rain':
+        case 'fzra.png':
+        case 'mix.png':
+        case 'nmix.png':
+        case 'raip.png':
+        case 'shra.png':
+        case 'tsra.png':
+        case 'ntsra.png':
+        case 'hi_shwrs.png':
+        case 'hi_nshwrs.png':
+        case 'fzrara.png':
+        case 'hi_tsra.png':
+        case 'hi_ntsra.png':
+        case 'ra1.png':
+        case 'nra.png':
+        case 'ra.png':
+        case 'nra.png':
+        case 'nsvrtsra.png':
             return WeatherTags.Rain;
-        case 'Snow':
+        case 'ip.png':
+        case 'rasn.png':
+        case 'nrasn.png':
+        case 'sn.png':
+        case 'nsn.png':
             return WeatherTags.Snow;
         default:
             return []; // TODO: Use clear as fallback; but for now we shouldn't do it to find failures
