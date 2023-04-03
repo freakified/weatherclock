@@ -8,8 +8,6 @@ interface WeatherCurrentProps {
 }
 
 const WeatherCurrent: FunctionComponent<WeatherCurrentProps> = ({weatherData}) => {
-    
-    
     return(
         <div className="wc-WeatherCurrent">
             <div className="wc-WeatherCurrent-currentTemp">{ weatherData?.current?.temperature }°</div>

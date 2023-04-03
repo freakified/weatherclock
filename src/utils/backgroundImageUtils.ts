@@ -96,8 +96,10 @@ export const getDaypartFromTime = (currentTime: Date, lat: number, lng: number) 
  * Returns the url for a wallpaper image matching the
  * specified hour and weather tag
  **/
-export const getNewBackground = (daypartName = 'Midday', weatherCondition = 'Clear') => {  
-    console.log(`Searching for backgrounds with weather "${weatherCondition}" and daypart "${daypartName}"...`);
+export const getNewBackground = (daypartName = 'Midday', weatherIconName = '') => {  
+    console.log(`Searching for backgrounds with weather "${weatherIconName}" and daypart "${daypartName}"...`);
+    
+    const weatherCondition = getWeatherConditionNameFromIcon(weatherIconName);
     const availableImages = getImagesFromTags(daypartName, weatherCondition);
     const borrowedImages = getBorrowedImages(daypartName, weatherCondition);
     
@@ -124,30 +126,29 @@ const getImagesForDaypart = (daypartName: string) => {
     }
 }
 
-// based on the icon list from https://w1.weather.gov/xml/current_obs/weather.php
-const getImagesForWeatherCondition = (weatherCondition: string) => {
-    switch(weatherCondition) {
+const getWeatherConditionNameFromIcon = (weatherIconName: string) => {
+    switch(weatherIconName) {
         case 'skc.png':
         case 'nskc.png':
         case 'few.png':
         case 'nfew.png':
-            return WeatherTags.Clear;
+            return 'Clear';
         case 'sct.png':
         case 'nsct.png':
         case 'wind.png': // note that "wind" isn't really partly cloudy but what are you gonna do
         case 'nwind.png':
-            return WeatherTags.PartlyCloudy;
+            return 'PartlyCloudy';
         case 'bkn.png':
         case 'nbkn.png':
         case 'ovc.png':
         case 'novc.png':
-            return WeatherTags.Cloudy;
+            return 'Cloudy';
         case 'fg.png':
         case 'nfg.png':
         case 'smoke.png':
         case 'dust.png':
         case 'mist.png':
-            return WeatherTags.Fog;
+            return 'Fog';
         case 'fzra.png':
         case 'mix.png':
         case 'nmix.png':
@@ -165,12 +166,32 @@ const getImagesForWeatherCondition = (weatherCondition: string) => {
         case 'ra.png':
         case 'nra.png':
         case 'nsvrtsra.png':
-            return WeatherTags.Rain;
+            return 'Rain';
         case 'ip.png':
         case 'rasn.png':
         case 'nrasn.png':
         case 'sn.png':
         case 'nsn.png':
+            return 'Snow';
+        default:
+            return ''; // TODO: Use clear as fallback; but for now we shouldn't do it to find failures
+    }
+}
+
+// based on the icon list from https://w1.weather.gov/xml/current_obs/weather.php
+const getImagesForWeatherCondition = (weatherCondition: string) => {
+    switch(weatherCondition) {
+        case 'Clear':
+            return WeatherTags.Clear;
+        case 'PartlyCloudy':
+            return WeatherTags.PartlyCloudy;
+        case 'Cloudy':
+            return WeatherTags.Cloudy;
+        case 'Fog':
+            return WeatherTags.Fog;
+        case 'Rain':
+            return WeatherTags.Rain;
+        case 'Snow':
             return WeatherTags.Snow;
         default:
             return []; // TODO: Use clear as fallback; but for now we shouldn't do it to find failures
