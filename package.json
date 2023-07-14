@@ -5,6 +5,7 @@
   "main": "src/index.tsx",
   "homepage": "http://freakified.github.io/weatherclock",
   "dependencies": {
+    "@namhong2001/react-textfit": "^2.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",

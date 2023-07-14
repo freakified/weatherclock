@@ -29,5 +29,5 @@
 
 .wc-WeatherForecast-details {
     font-size: 28px;
-    line-height: 33px;
+    max-height: 125px;
 }
