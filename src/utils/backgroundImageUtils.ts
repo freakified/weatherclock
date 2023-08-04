@@ -174,7 +174,7 @@ const getWeatherConditionNameFromIcon = (weatherIconName: string) => {
         case 'nsn.png':
             return 'Snow';
         default:
-            return ''; // TODO: Use clear as fallback; but for now we shouldn't do it to find failures
+            return 'Clear'; // TODO: Use clear as fallback; but for now we shouldn't do it to find failures
     }
 }
 
