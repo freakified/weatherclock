@@ -13,6 +13,7 @@
     margin: 0 0.3em;
 }
 
+/* Show short date only on small screens */
 .wc-ClockDate-shortDate {
     display: block;
 }
@@ -20,7 +21,6 @@
     display: none;
 }
 
-/* Show short date only on small screens */
 @media (min-width: 768px) {
     .wc-ClockDate-shortDate {
         display: none;

@@ -42,3 +42,9 @@
     letter-spacing: 0.075em;
     text-transform: uppercase;
 }
+
+@media (max-width: 715px) {
+    .wc-ClockTime-ampm {
+        display: none;
+    }
+}
