@@ -9,7 +9,6 @@
 .wc-App-upperContainer {
   display: flex;
   background-image: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,0));
-  padding-bottom: 20px;
 }
 
 .wc-App-flexSpacer {
@@ -18,8 +17,7 @@
 
 .wc-App-lowerContainer {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
+  align-items: flex-end;
 }
 
 .wc-App-spacer {

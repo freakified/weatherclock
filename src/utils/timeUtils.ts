@@ -18,6 +18,10 @@ export const getFormattedDate = (currentTime: Date) => {
     return currentTime.toLocaleDateString('en-us', { weekday: 'long', month:"long", day: 'numeric'});
 }
 
+export const getFormattedDateShort = (currentTime: Date) => {
+    return currentTime.toLocaleDateString('en-us', { weekday: 'short', month:"short", day: 'numeric'});
+}
+
 export const getMinutesBetweenDates = (startDate: Date, endDate: Date) => {
     const durationMs = (endDate.getTime()) - (startDate.getTime());
     return Math.floor(durationMs / 60000);

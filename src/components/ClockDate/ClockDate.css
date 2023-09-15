@@ -4,10 +4,28 @@
     text-transform: uppercase;
     display: flex;
     margin-left: 15px;
+    margin-bottom: 13px;
 }
 
 .wc-ClockDate-separator {
     width: 2px;
     background-color: rgba(255, 255, 255, 0.3);
     margin: 0 0.3em;
+}
+
+.wc-ClockDate-shortDate {
+    display: block;
+}
+.wc-ClockDate-date {
+    display: none;
+}
+
+/* Show short date only on small screens */
+@media (min-width: 768px) {
+    .wc-ClockDate-shortDate {
+        display: none;
+    }
+    .wc-ClockDate-date {
+        display: block;
+    }
 }
