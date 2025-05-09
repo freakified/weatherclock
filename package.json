@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "src/index.tsx",
-  "homepage": "http://freakified.github.io/weatherclock",
+  "homepage": "http://weatherclock.freakified.net/",
   "dependencies": {
     "@namhong2001/react-textfit": "^2.0.0",
     "@testing-library/jest-dom": "^5.16.5",
